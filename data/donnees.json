@@ -37,7 +37,7 @@
     "prix_tige": 4,
     "couleurs": ["rose"],
     "disponible": false,
-    "a_verifier": []
+    "a_verifier": ["disponible"]
   },
   {
     "id": "lys",
