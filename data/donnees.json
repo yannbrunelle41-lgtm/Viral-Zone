@@ -1,1 +1,58 @@
-[]
+[
+  {
+    "id": "rose",
+    "nom": "Rose",
+    "prix_tige": 2.5,
+    "couleurs": ["rouge", "blanc", "rose pâle"],
+    "disponible": true,
+    "a_verifier": []
+  },
+  {
+    "id": "tulipe",
+    "nom": "Tulipe",
+    "prix_tige": 1.8,
+    "couleurs": ["jaune", "blanc", "violet"],
+    "disponible": true,
+    "a_verifier": []
+  },
+  {
+    "id": "renoncule",
+    "nom": "Renoncule",
+    "prix_tige": 2.2,
+    "couleurs": ["orange", "blanc"],
+    "disponible": true,
+    "a_verifier": []
+  },
+  {
+    "id": "eucalyptus",
+    "nom": "Eucalyptus",
+    "prix_tige": 1.2,
+    "couleurs": ["vert"],
+    "disponible": true,
+    "a_verifier": []
+  },
+  {
+    "id": "pivoine",
+    "nom": "Pivoine",
+    "prix_tige": 4,
+    "couleurs": ["rose"],
+    "disponible": false,
+    "a_verifier": []
+  },
+  {
+    "id": "lys",
+    "nom": "Lys",
+    "prix_tige": null,
+    "couleurs": ["blanc"],
+    "disponible": true,
+    "a_verifier": ["prix_tige"]
+  },
+  {
+    "id": "anemone",
+    "nom": "Anémone",
+    "prix_tige": null,
+    "couleurs": ["bleu", "blanc"],
+    "disponible": true,
+    "a_verifier": ["prix_tige"]
+  }
+]
