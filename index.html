@@ -13,12 +13,12 @@
   <!-- En-tête commun du site -->
   <header class="bg-roussel-vert text-white">
     <div class="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-4 md:flex-row md:items-center md:justify-between">
-      <a href="index.html" class="text-xl font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Fleurs Roussel</a>
+      <a href="index.html" class="inline-flex min-h-11 items-center text-xl font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-roussel-rose">Fleurs Roussel</a>
       <nav aria-label="Navigation principale">
         <ul class="flex flex-wrap gap-x-5 gap-y-2">
-          <li><a href="bouquets.html" class="hover:underline focus-visible:outline-2 focus-visible:outline-white">Bouquets</a></li>
-          <li><a href="abonnement.html" class="hover:underline focus-visible:outline-2 focus-visible:outline-white">Abonnement</a></li>
-          <li><a href="contact.html" class="hover:underline focus-visible:outline-2 focus-visible:outline-white">Contact</a></li>
+          <li><a href="bouquets.html" class="inline-flex min-h-11 items-center hover:underline focus-visible:outline-2 focus-visible:outline-roussel-rose">Bouquets</a></li>
+          <li><a href="abonnement.html" class="inline-flex min-h-11 items-center hover:underline focus-visible:outline-2 focus-visible:outline-roussel-rose">Abonnement</a></li>
+          <li><a href="contact.html" class="inline-flex min-h-11 items-center hover:underline focus-visible:outline-2 focus-visible:outline-roussel-rose">Contact</a></li>
         </ul>
       </nav>
     </div>
@@ -26,7 +26,56 @@
 
   <main id="contenu" class="mx-auto max-w-5xl px-4 py-8">
 
-    <!-- L'application vient ici. -->
+    <!-- Structure fixe du configurateur, mise en forme avec Tailwind. -->
+    <h1 class="mb-6 text-3xl font-bold text-roussel-vert">Composez votre bouquet</h1>
+    <!-- Les titres identifient les deux parties de l’application. -->
+    <h2 class="mb-4 text-2xl font-semibold text-roussel-vert">Vos choix</h2>
+    <form class="grid gap-6" aria-label="Configurateur de bouquet">
+      <fieldset>
+        <legend class="mb-3 text-xl font-semibold">1. Choisissez une fleur</legend>
+        <ul id="choix-fleurs" class="grid gap-3 md:grid-cols-2"></ul>
+      </fieldset>
+      <div class="grid gap-2">
+        <label for="couleur" class="text-xl font-semibold">2. Choisissez une couleur</label>
+        <select id="couleur" class="rounded border border-roussel-gris p-3 focus-visible:outline-2 focus-visible:outline-roussel-rose disabled:opacity-50" disabled>
+          <option value="">Choisissez d’abord une fleur</option>
+        </select>
+      </div>
+      <div class="grid gap-2">
+        <label for="taille" class="text-xl font-semibold">3. Choisissez une taille</label>
+        <select id="taille" class="rounded border border-roussel-gris p-3 focus-visible:outline-2 focus-visible:outline-roussel-rose">
+          <option value="">Choisissez une taille</option>
+          <option value="petit" data-tiges="7">petit (7 tiges)</option>
+          <option value="moyen" data-tiges="12">moyen (12 tiges)</option>
+          <option value="grand" data-tiges="20">grand (20 tiges)</option>
+        </select>
+      </div>
+    </form>
+    <section class="mt-6 grid gap-3 rounded bg-roussel-vert-clair p-5" aria-labelledby="titre-bouquet">
+      <h2 id="titre-bouquet" class="text-2xl font-semibold text-roussel-vert">Votre bouquet</h2>
+      <div id="resultat" class="grid gap-2" role="status" aria-live="polite">
+        <p id="resume">Choisissez une fleur, une couleur et une taille pour voir le prix de votre bouquet.</p>
+        <p id="prix-total" class="hidden text-xl font-bold text-roussel-rose"></p>
+      </div>
+      <a id="commander" href="contact.html?objet=bouquet" class="hidden w-fit rounded bg-roussel-vert px-4 py-3 font-semibold text-white focus-visible:outline-2 focus-visible:outline-roussel-rose focus-visible:outline-offset-2">Commander ce bouquet</a>
+    </section>
+
+    <!-- Modèle de fleur : JavaScript le copie pour chaque entrée du JSON. -->
+    <template id="modele-fleur">
+      <li>
+        <label class="flex min-h-11 items-center gap-3 rounded border p-3 has-disabled:cursor-not-allowed has-disabled:border-roussel-gris has-disabled:text-roussel-gris has-disabled:opacity-60 has-enabled:cursor-pointer has-enabled:border-roussel-vert">
+          <input type="radio" name="fleur" class="focus-visible:outline-2 focus-visible:outline-roussel-rose">
+          <!-- L’image est renseignée seulement si elle existe pour cette fleur. -->
+          <img data-image alt="" width="80" height="80" class="hidden h-20 w-20 shrink-0 object-contain">
+          <span class="grid gap-1">
+            <span data-nom class="font-semibold"></span>
+            <span data-prix class="text-roussel-rose"></span>
+            <span data-statut class="hidden">Indisponible</span>
+          </span>
+        </label>
+      </li>
+    </template>
+    <p id="chargement" role="status">Chargement des fleurs…</p>
 
   </main>
 

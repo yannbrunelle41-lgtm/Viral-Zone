@@ -5,12 +5,7 @@ const formatPrix = new Intl.NumberFormat('fr-FR', {
   currency: 'EUR',
 });
 
-// Les tailles et les frais de composition sont définis dans le sujet.
-const tailles = [
-  { id: 'petit', tiges: 7 },
-  { id: 'moyen', tiges: 12 },
-  { id: 'grand', tiges: 20 },
-];
+// Les frais de composition sont définis dans le sujet.
 const fraisComposition = 5;
 
 // Vérifie les champs utilisés avant d'afficher les données reçues.
@@ -40,83 +35,72 @@ function estSelectionnable(fleur) {
   return fleur.disponible && fleur.prix_tige !== null && fleur.a_verifier.length === 0;
 }
 
+// Remplit le modèle de fleur et relie les choix au récapitulatif.
 function afficherConfigurateur(fleurs) {
-  // Ce gabarit est fixe : les données externes sont insérées ensuite avec textContent.
-  contenu.innerHTML = `
-    <h1 class="mb-6 text-3xl font-bold text-roussel-vert">Composez votre bouquet</h1>
-    <form class="grid gap-6" aria-label="Configurateur de bouquet">
-      <fieldset>
-        <legend class="mb-3 text-xl font-semibold">1. Choisissez une fleur</legend>
-        <div id="choix-fleurs" class="grid gap-3 sm:grid-cols-2"></div>
-      </fieldset>
-      <div class="grid gap-2">
-        <label for="couleur" class="text-xl font-semibold">2. Choisissez une couleur</label>
-        <select id="couleur" class="rounded border border-roussel-gris p-3 disabled:opacity-50" disabled>
-          <option value="">Choisissez d’abord une fleur</option>
-        </select>
-      </div>
-      <div class="grid gap-2">
-        <label for="taille" class="text-xl font-semibold">3. Choisissez une taille</label>
-        <select id="taille" class="rounded border border-roussel-gris p-3">
-          <option value="">Choisissez une taille</option>
-        </select>
-      </div>
-    </form>
-    <section class="mt-6 grid gap-3 rounded bg-roussel-vert-clair p-5" aria-label="Votre bouquet">
-      <div id="resultat" class="grid gap-2" role="status" aria-live="polite"></div>
-      <a id="commander" href="contact.html?objet=bouquet" class="hidden w-fit rounded bg-roussel-vert px-4 py-3 font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2">Commander ce bouquet</a>
-    </section>
-  `;
-
   const listeFleurs = contenu.querySelector('#choix-fleurs');
   const couleur = contenu.querySelector('#couleur');
   const taille = contenu.querySelector('#taille');
-  const resultat = contenu.querySelector('#resultat');
+  const resume = contenu.querySelector('#resume');
+  const prix = contenu.querySelector('#prix-total');
+  const modeleFleur = contenu.querySelector('#modele-fleur');
   const commander = contenu.querySelector('#commander');
   let fleurChoisie = null;
 
   // Le lien et le prix n'apparaissent que lorsque les trois choix sont complets.
   function actualiserRecapitulatif() {
-    const tailleChoisie = tailles.find((element) => element.id === taille.value);
+    // Le nombre de tiges est lu sur l’option définie dans le HTML.
+    const optionTaille = taille.selectedOptions[0];
+    const tailleChoisie = taille.value
+      ? { id: taille.value, tiges: Number(optionTaille.dataset.tiges) }
+      : null;
     const complet = fleurChoisie && estSelectionnable(fleurChoisie)
       && fleurChoisie.couleurs.includes(couleur.value) && tailleChoisie;
     commander.classList.toggle('hidden', !complet);
-    resultat.replaceChildren();
+    prix.classList.toggle('hidden', !complet);
+    prix.textContent = '';
 
     if (!complet) {
-      resultat.textContent = 'Choisissez une fleur, une couleur et une taille pour voir le prix de votre bouquet.';
+      resume.textContent = 'Choisissez une fleur, une couleur et une taille pour voir le prix de votre bouquet.';
       return;
     }
 
-    const resume = document.createElement('p');
     resume.textContent = `Bouquet ${tailleChoisie.id} : ${tailleChoisie.tiges} tiges de ${fleurChoisie.nom.toLocaleLowerCase('fr-FR')}, coloris ${couleur.value}.`;
-    const prix = document.createElement('p');
-    prix.className = 'text-xl font-bold text-roussel-vert';
     // Calcul en centimes pour éviter les imprécisions usuelles des nombres décimaux.
     const totalCentimes = Math.round(fleurChoisie.prix_tige * 100) * tailleChoisie.tiges
       + fraisComposition * 100;
     prix.textContent = `Total : ${formatPrix.format(totalCentimes / 100)} (dont ${formatPrix.format(fraisComposition)} de composition)`;
-    resultat.append(resume, prix);
   }
 
   // Chaque ligne affiche le prix connu, même lorsque la fleur est indisponible.
   fleurs.forEach((fleur, index) => {
     const disponible = estSelectionnable(fleur);
-    const etiquette = document.createElement('label');
-    etiquette.className = disponible
-      ? 'flex cursor-pointer items-center gap-3 rounded border border-roussel-vert p-3'
-      : 'flex cursor-not-allowed items-center gap-3 rounded border border-roussel-gris p-3 text-roussel-gris opacity-60';
-    const choix = document.createElement('input');
-    choix.type = 'radio';
-    choix.name = 'fleur';
+    // On copie le modèle HTML, puis on insère les données comme du texte.
+    const element = modeleFleur.content.cloneNode(true);
+    const choix = element.querySelector('input');
     choix.value = fleur.id;
     choix.id = `fleur-${index}`;
     choix.disabled = !disponible;
-    const texte = document.createElement('span');
-    const prix = fleur.prix_tige === null ? 'prix à vérifier' : `${formatPrix.format(fleur.prix_tige)} la tige`;
-    texte.textContent = `${fleur.nom} — ${prix}${disponible ? '' : ' — Indisponible'}`;
-    etiquette.append(choix, texte);
-    listeFleurs.append(etiquette);
+    // Les chemins respectent exactement la casse des fichiers fournis.
+    const imagesFleurs = {
+      rose: 'rose.svg',
+      tulipe: 'tulipe.svg',
+      renoncule: 'renoncule.svg',
+      eucalyptus: 'Eucalyptus.svg',
+      pivoine: 'pivoine.svg',
+      lys: 'Lys.svg',
+      anemone: 'Anemone.svg',
+    };
+    if (Object.hasOwn(imagesFleurs, fleur.id)) {
+      const image = element.querySelector('[data-image]');
+      image.src = `img/fleurs/${imagesFleurs[fleur.id]}`;
+      image.classList.remove('hidden');
+    }
+    element.querySelector('[data-nom]').textContent = fleur.nom;
+    element.querySelector('[data-prix]').textContent = fleur.prix_tige === null
+      ? 'Prix à vérifier'
+      : `${formatPrix.format(fleur.prix_tige)} la tige`;
+    element.querySelector('[data-statut]').classList.toggle('hidden', disponible);
+    listeFleurs.append(element);
 
     // Changer de fleur efface la couleur précédente pour éviter un choix incompatible.
     choix.addEventListener('change', () => {
@@ -128,9 +112,6 @@ function afficherConfigurateur(fleurs) {
     });
   });
 
-  tailles.forEach((element) => {
-    taille.add(new Option(`${element.id} (${element.tiges} tiges)`, element.id));
-  });
   couleur.addEventListener('change', actualiserRecapitulatif);
   taille.addEventListener('change', actualiserRecapitulatif);
   // Le configurateur utilise uniquement le lien vers le formulaire de contact.
@@ -140,15 +121,17 @@ function afficherConfigurateur(fleurs) {
 
 // Affiche un message explicite si le serveur ou le fichier de données pose problème.
 async function chargerFleurs() {
-  contenu.textContent = 'Chargement des fleurs…';
+  // Le message de chargement ne remplace pas la structure de la page.
+  const chargement = contenu.querySelector('#chargement');
   try {
     const reponse = await fetch('data/donnees.json');
     if (!reponse.ok) throw new Error(`Chargement impossible : HTTP ${reponse.status}`);
     const fleurs = await reponse.json();
     if (!donneesValides(fleurs)) throw new Error('Les données des fleurs ne respectent pas le format attendu.');
     afficherConfigurateur(fleurs);
+    chargement.classList.add('hidden');
   } catch (erreur) {
-    contenu.textContent = 'Impossible de charger les fleurs. Vérifiez le fichier de données et ouvrez le site avec le serveur local.';
+    chargement.textContent = 'Impossible de charger les fleurs. Vérifiez le fichier de données et ouvrez le site avec le serveur local.';
     console.error(erreur);
   }
 }

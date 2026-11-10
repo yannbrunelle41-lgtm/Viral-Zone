@@ -1,3 +1,15 @@
+# Vérifications d’intégration — à effectuer dans le navigateur
+
+Ces points sont des critères de contrôle, pas des résultats déjà obtenus.
+
+1. À 375 px de large, aucun contenu ne déborde horizontalement.
+2. Au clavier, les liens et les choix sont accessibles et le focus reste visible.
+3. Les liens et zones de choix ont une hauteur d’au moins 44 px.
+4. Les changements de récapitulatif sont annoncés dans la zone `aria-live`.
+5. Aucune erreur ne s’affiche dans la console pendant le chargement et les interactions.
+
+Les contrôles techniques réellement exécutés le 2026-11-10 sont consignés dans `journal.md`.
+
 # Fonctionnalité 1: Affichage des fleurs
 1. Est-ce que les fleurs s'affichent bien.
 2. Est-ce que le nom s'affiche et correspond à la fleur.
