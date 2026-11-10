@@ -2,7 +2,7 @@
   "name": "appli-roussel",
   "version": "1.0.0",
   "private": true,
-  "description": "Application interactive Fleurs Roussel (brief IA collectif)",
+  "description": "Configurateur de bouquet Fleurs Roussel : choix de la fleur, de la couleur et de la taille, calcul du prix et récapitulatif (brief IA collectif)",
   "scripts": {
     "dev": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
     "build": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
