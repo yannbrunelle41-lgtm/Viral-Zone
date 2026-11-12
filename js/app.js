@@ -14,6 +14,20 @@ const formatPrix = new Intl.NumberFormat("fr-FR", {
   currency: "EUR",
 });
 
+// Les frais demandés sont ajoutés une seule fois ; le calcul en centimes évite les imprécisions décimales.
+const prixCompositionCentimes = 500;
+function afficherPrixBouquet(fleur, nombreTiges) {
+  const prixFleursCentimes = Math.round(fleur.prix_tige * 100) * nombreTiges;
+  // textContent conserve les noms du catalogue comme du texte, sans interpréter de HTML.
+  document.querySelector("#detail-fleur").textContent =
+    `${fleur.nom} (${formatPrix.format(fleur.prix_tige)} × ${nombreTiges})`;
+  document.querySelector("#prix-fleurs").textContent = formatPrix.format(prixFleursCentimes / 100);
+  document.querySelector("#prix-composition").textContent = formatPrix.format(prixCompositionCentimes / 100);
+  document.querySelector("#prix-total").textContent =
+    formatPrix.format((prixFleursCentimes + prixCompositionCentimes) / 100);
+  document.querySelector("#recapitulatif-prix").hidden = false;
+}
+
 // Charge les données existantes sans modifier les prix ni les disponibilités.
 async function afficherFleurs() {
   try {
@@ -45,6 +59,10 @@ async function afficherFleurs() {
         const bouton = carte.querySelector("button");
         const listeCouleurs = carte.querySelector("[data-couleurs]");
         const listeTailles = carte.querySelector("[data-tailles]");
+        // Chaque nouvelle taille remplace le calcul précédent pour la fleur choisie.
+        listeTailles.addEventListener("change", (event) => {
+          afficherPrixBouquet(fleur, Number(event.target.value));
+        });
         listeTailles.setAttribute("aria-label", `Tailles pour ${fleur.nom}`);
         // Les valeurs des radios correspondent au nombre de tiges demandé.
         for (const [taille, tiges] of [["petit", 7], ["moyen", 12], ["grand", 20]]) {
@@ -119,6 +137,8 @@ async function afficherFleurs() {
           if (!selectionnable) return;
           // Un changement de fleur cache l'ancienne liste et réinitialise sa couleur.
           if (boutonSelectionne !== bouton) {
+            // Le prix attend le nouveau choix de taille, réinitialisé lors du changement de fleur.
+            document.querySelector("#recapitulatif-prix").hidden = true;
             // Changer de fleur efface la taille précédente et cache ses options.
             if (taillesSelectionnees) {
               taillesSelectionnees.hidden = true;

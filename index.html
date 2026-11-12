@@ -49,6 +49,30 @@
       <p id="erreur-fleurs" role="alert" hidden>Impossible de charger les fleurs.</p>
     </section>
 
+    <!-- ml-auto plaque le bloc à droite ; w-fit adapte sa largeur ; max-w-full évite le débordement.
+         La table aligne les libellés, les signes « : » et les montants dans trois colonnes. -->
+    <section id="recapitulatif-prix" aria-label="Prix du bouquet" aria-live="polite" hidden class="mt-6 ml-auto w-fit max-w-full">
+      <table class="text-sm md:text-base">
+        <tbody>
+          <tr>
+            <th id="detail-fleur" scope="row" class="py-1 text-left font-normal"></th>
+            <td class="px-2 py-1">:</td>
+            <td id="prix-fleurs" class="py-1 text-right whitespace-nowrap tabular-nums"></td>
+          </tr>
+          <tr>
+            <th scope="row" class="py-1 text-left font-normal">Composition bouquet</th>
+            <td class="px-2 py-1">:</td>
+            <td id="prix-composition" class="py-1 text-right whitespace-nowrap tabular-nums"></td>
+          </tr>
+          <tr class="font-bold">
+            <th scope="row" class="py-1 text-left">Prix total</th>
+            <td class="px-2 py-1">:</td>
+            <td id="prix-total" class="py-1 text-right whitespace-nowrap tabular-nums"></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
     <!-- Modèle réutilisé pour chaque fleur, sans ajouter de données au catalogue. -->
     <template id="modele-fleur">
       <!-- flex (mise en page flexible) ; flex-wrap (retour à la ligne) ; min-h-32 (hauteur minimale) ;
