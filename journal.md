@@ -250,3 +250,9 @@ Format de réponse :
 2. Code proposé pour chaque fichier.
 3. Explication du code.
 4. Comment vérifier chaque cas de test.
+
+
+Correction avec IA: 
+Ajouter des bordures à la zone de calcul du prix
+résultas ok 
+
