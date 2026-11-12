@@ -22,6 +22,8 @@ async function afficherFleurs() {
     const fleurs = await reponse.json();
     const liste = document.querySelector("#liste-fleurs");
     const modele = document.querySelector("#modele-fleur");
+    // Une seule fleur peut être sélectionnée à la fois.
+    let boutonSelectionne = null;
 
     // Arrondir au-dessus place la fleur supplémentaire dans la colonne gauche.
     const separation = Math.ceil(fleurs.length / 2);
@@ -34,11 +36,27 @@ async function afficherFleurs() {
       for (const fleur of fleursColonne) {
         const carte = modele.content.cloneNode(true);
         const image = carte.querySelector("img");
+        const bouton = carte.querySelector("button");
+        // Une donnée manquante ou à vérifier interdit également la sélection.
+        const selectionnable = fleur.disponible === true
+          && Number.isFinite(fleur.prix_tige)
+          && Array.isArray(fleur.a_verifier)
+          && fleur.a_verifier.length === 0;
+        bouton.disabled = !selectionnable;
+        carte.querySelector("[data-disponibilite]").hidden = selectionnable;
+        bouton.addEventListener("click", () => {
+          if (!selectionnable) return;
+          boutonSelectionne?.classList.remove("bg-roussel-vert-clair");
+          boutonSelectionne?.setAttribute("aria-pressed", "false");
+          bouton.classList.add("bg-roussel-vert-clair");
+          bouton.setAttribute("aria-pressed", "true");
+          boutonSelectionne = bouton;
+        });
         image.src = imagesFleurs[fleur.id];
-        image.alt = fleur.nom;
+        image.alt = ""; // Le nom adjacent décrit déjà la fleur.
         // textContent affiche les données comme du texte, sans interpréter de HTML.
-        carte.querySelector("h2").textContent = fleur.nom;
-        carte.querySelector("p").textContent = fleur.prix_tige === null
+        carte.querySelector("[data-nom]").textContent = fleur.nom;
+        carte.querySelector("[data-prix]").textContent = !Number.isFinite(fleur.prix_tige)
           ? "Prix à vérifier"
           : `${formatPrix.format(fleur.prix_tige)} / tige`;
         colonne.append(carte);
