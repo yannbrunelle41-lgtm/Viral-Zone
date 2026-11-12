@@ -209,7 +209,7 @@ Format de réponse :
 3. Explication du code.
 4. Comment vérifier chaque cas de test.
 
-Fonctionnalité 4 résultat ok.
+Fonctionnalité 5 résultat ok.
  
  Relecture par Nabil 
  ajout des commentaires plus pricises
