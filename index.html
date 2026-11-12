@@ -36,8 +36,8 @@
     <template id="modele-fleur">
       <li class="min-w-0">
         <!-- Hauteur commune aux cartes, avec assez de place pour la mention Indisponible. -->
-        <!-- Bouton natif : sélection au clic et au clavier, blocage avec disabled. -->
-        <button type="button" aria-pressed="false" class="flex h-32 w-full min-w-0 items-center gap-4 overflow-hidden rounded-[16px] border border-roussel-vert px-2 py-4 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-roussel-vert disabled:cursor-not-allowed disabled:grayscale disabled:opacity-50 md:px-[32px]">
+        <!-- Bouton natif : sélection au clic et au clavier, blocage avec disabled, curseur pointeur si cliquable. -->
+        <button type="button" aria-pressed="false" class="flex h-32 w-full min-w-0 items-center gap-4 overflow-hidden rounded-[16px] border border-roussel-vert px-2 py-4 text-left cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-roussel-vert disabled:cursor-not-allowed disabled:grayscale disabled:opacity-50 md:px-[32px]">
           <!-- Image de largeur fixe et espace de 16 px pour rapprocher le texte. -->
           <img class="h-16 w-16 shrink-0 object-contain object-left" src="" alt="">
           <span class="flex min-w-0 flex-1 flex-col justify-center gap-2">

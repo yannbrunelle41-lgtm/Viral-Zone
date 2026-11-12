@@ -114,3 +114,11 @@ je veux que ce soit harmonieux. Les blocs sélectionnables doivent faire la mêm
 elles doivent faire 128px de hauteur.
 
 ok pour le résultat
+
+test par Valentin:
+Observation du manque de hover pour montrer à l'utilisateur  que c'est bien cliquable.
+
+Correction avec IA:
+Ajoute un état de hover cursor-pointer pour qu'une petite main s'affiche lorque c'est cliquable.
+
+Résultat ok.
