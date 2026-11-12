@@ -301,3 +301,6 @@ Format de réponse :
 2. Code proposé pour chaque fichier.
 3. Explication du code.
 4. Comment vérifier chaque cas de test.
+
+6eme et 7eme Fonctionnalité test ok.
+Pas de correction nécessaire.
