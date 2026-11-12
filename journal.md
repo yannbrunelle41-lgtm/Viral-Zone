@@ -160,3 +160,12 @@ Format de réponse :
 2. Code proposé pour chaque fichier.
 3. Explication du code.
 4. Comment vérifier chaque cas de test.
+
+Test Fonctionnalité 3 par Valentin:
+
+Prompt de correction:
+Quand on clique sur la case, on voit que l'écriture se colle uniquement sur la droite de la case, fais en sorte que ca prenne plus de place et que le backgroud couleur soit vert aussi
+2eme correction:
+La liste à puce je veux qu'elle soit juste après le bloc nom-prix avec le meme gap qu'il y entre l'image et le bloc prix pas au bout de la case
+
+Résultat ok.

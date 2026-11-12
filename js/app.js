@@ -24,6 +24,7 @@ async function afficherFleurs() {
     const modele = document.querySelector("#modele-fleur");
     // Une seule fleur peut être sélectionnée à la fois.
     let boutonSelectionne = null;
+    let carteSelectionnee = null;
     let couleursSelectionnees = null;
 
     // Arrondir au-dessus place la fleur supplémentaire dans la colonne gauche.
@@ -36,6 +37,7 @@ async function afficherFleurs() {
 
       for (const fleur of fleursColonne) {
         const carte = modele.content.cloneNode(true);
+        const elementLi = carte.querySelector("li");
         const image = carte.querySelector("img");
         const bouton = carte.querySelector("button");
         const listeCouleurs = carte.querySelector("[data-couleurs]");
@@ -44,12 +46,12 @@ async function afficherFleurs() {
         for (const couleur of fleur.couleurs) {
           const element = document.createElement("li");
           const etiquette = document.createElement("label");
-          etiquette.className = "flex cursor-pointer items-center gap-1 whitespace-nowrap md:gap-2";
+          etiquette.className = "flex cursor-pointer items-center gap-2 whitespace-nowrap text-roussel-texte";
           const radio = document.createElement("input");
           radio.type = "radio";
           radio.name = "couleur";
           radio.value = couleur;
-          radio.className = "shrink-0 cursor-pointer accent-roussel-vert";
+          radio.className = "h-4 w-4 shrink-0 cursor-pointer accent-roussel-vert";
           const libelle = document.createElement("span");
           libelle.textContent = couleur;
           etiquette.append(radio, libelle);
@@ -63,6 +65,19 @@ async function afficherFleurs() {
           && fleur.a_verifier.length === 0;
         bouton.disabled = !selectionnable;
         carte.querySelector("[data-disponibilite]").hidden = selectionnable;
+        if (selectionnable) {
+          elementLi.classList.add("cursor-pointer");
+        } else {
+          elementLi.classList.add("cursor-not-allowed");
+        }
+
+        // Permet de sélectionner la fleur en cliquant n'importe où dans la carte hors options de couleur
+        elementLi.addEventListener("click", (event) => {
+          if (!event.target.closest("[data-couleurs]") && !event.target.closest("button")) {
+            bouton.click();
+          }
+        });
+
         bouton.addEventListener("click", () => {
           if (!selectionnable) return;
           // Un changement de fleur cache l'ancienne liste et réinitialise sa couleur.
@@ -76,11 +91,13 @@ async function afficherFleurs() {
             listeCouleurs.hidden = false;
             couleursSelectionnees = listeCouleurs;
           }
-          boutonSelectionne?.classList.remove("bg-roussel-vert-clair");
+          // Coloration de l'ensemble de la carte (li) pour que le fond vert englobe aussi les options de couleur
+          carteSelectionnee?.classList.remove("bg-roussel-vert-clair");
           boutonSelectionne?.setAttribute("aria-pressed", "false");
-          bouton.classList.add("bg-roussel-vert-clair");
+          elementLi.classList.add("bg-roussel-vert-clair");
           bouton.setAttribute("aria-pressed", "true");
           boutonSelectionne = bouton;
+          carteSelectionnee = elementLi;
         });
         image.src = imagesFleurs[fleur.id];
         image.alt = ""; // Le nom adjacent décrit déjà la fleur.
