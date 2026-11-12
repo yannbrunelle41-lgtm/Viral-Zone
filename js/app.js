@@ -34,6 +34,8 @@ async function afficherFleurs() {
 
     for (const fleursColonne of colonnes) {
       const colonne = document.createElement("ul");
+      // Classes Tailwind : flex (mise en page flexible), min-w-0 (autorise le rétrécissement),
+      // flex-col (empile les cartes), gap-4 (espace entre cartes), md:gap-6 (espace accru sur écran moyen).
       colonne.className = "flex min-w-0 flex-col gap-4 md:gap-6";
 
       for (const fleur of fleursColonne) {
@@ -48,11 +50,16 @@ async function afficherFleurs() {
         for (const [taille, tiges] of [["petit", 7], ["moyen", 12], ["grand", 20]]) {
           const element = document.createElement("li");
           const etiquette = document.createElement("label");
+          // Classes Tailwind du libellé : flex (aligne le bouton et son texte), cursor-pointer (indique le clic),
+          // items-center (centre verticalement), gap-2 (espace), whitespace-nowrap (garde le texte sur une ligne),
+          // text-roussel-texte (couleur de texte du thème).
           etiquette.className = "flex cursor-pointer items-center gap-2 whitespace-nowrap text-roussel-texte";
           const radio = document.createElement("input");
           radio.type = "radio";
           radio.name = "taille";
           radio.value = String(tiges);
+          // Classes Tailwind du bouton radio : h-4/w-4 (dimensions), shrink-0 (pas de rétrécissement),
+          // cursor-pointer (curseur cliquable), accent-roussel-vert (couleur du thème).
           radio.className = "h-4 w-4 shrink-0 cursor-pointer accent-roussel-vert";
           const libelle = document.createElement("span");
           libelle.textContent = `${taille} (${tiges} tiges)`;
@@ -69,11 +76,16 @@ async function afficherFleurs() {
         for (const couleur of fleur.couleurs) {
           const element = document.createElement("li");
           const etiquette = document.createElement("label");
+          // Classes Tailwind du libellé : flex (aligne le bouton et son texte), cursor-pointer (indique le clic),
+          // items-center (centre verticalement), gap-2 (espace), whitespace-nowrap (garde le texte sur une ligne),
+          // text-roussel-texte (couleur de texte du thème).
           etiquette.className = "flex cursor-pointer items-center gap-2 whitespace-nowrap text-roussel-texte";
           const radio = document.createElement("input");
           radio.type = "radio";
           radio.name = "couleur";
           radio.value = couleur;
+          // Classes Tailwind du bouton radio : h-4/w-4 (dimensions), shrink-0 (pas de rétrécissement),
+          // cursor-pointer (curseur cliquable), accent-roussel-vert (couleur du thème).
           radio.className = "h-4 w-4 shrink-0 cursor-pointer accent-roussel-vert";
           const libelle = document.createElement("span");
           libelle.textContent = couleur;
@@ -89,8 +101,10 @@ async function afficherFleurs() {
         bouton.disabled = !selectionnable;
         carte.querySelector("[data-disponibilite]").hidden = selectionnable;
         if (selectionnable) {
+          // cursor-pointer signale que la carte peut être sélectionnée.
           elementLi.classList.add("cursor-pointer");
         } else {
+          // cursor-not-allowed signale que la carte n'est pas sélectionnable.
           elementLi.classList.add("cursor-not-allowed");
         }
 
@@ -123,6 +137,7 @@ async function afficherFleurs() {
             couleursSelectionnees = listeCouleurs;
           }
           // Coloration de l'ensemble de la carte (li) pour que le fond vert englobe aussi les options de couleur
+          // bg-roussel-vert-clair applique le fond vert clair à la carte sélectionnée.
           carteSelectionnee?.classList.remove("bg-roussel-vert-clair");
           boutonSelectionne?.setAttribute("aria-pressed", "false");
           elementLi.classList.add("bg-roussel-vert-clair");

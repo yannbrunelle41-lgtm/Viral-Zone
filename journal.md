@@ -210,3 +210,6 @@ Format de réponse :
 4. Comment vérifier chaque cas de test.
 
 Fonctionnalité 4 résultat ok.
+ 
+ Relecture par Nabil 
+ ajout des commentaires plus pricises

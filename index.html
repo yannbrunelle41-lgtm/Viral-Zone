@@ -8,15 +8,27 @@
   <!-- defer : le script s'exécute une fois la page lue -->
   <script src="js/app.js" defer></script>
 </head>
+<!-- Classes : bg-white (fond blanc) ; text-roussel-texte (couleur de texte du thème). -->
 <body class="bg-white text-roussel-texte">
 
   <!-- En-tête commun du site -->
+  <!-- bg-roussel-vert (fond vert du thème) ; text-white (texte blanc). -->
   <header class="bg-roussel-vert text-white">
+    <!-- mx-auto (centrage horizontal) ; flex (mise en page flexible) ; max-w-5xl (largeur maximale) ;
+         flex-col (éléments empilés par défaut) ; gap-3 (espace entre eux) ; px-4/py-4 (marges intérieures) ;
+         md:flex-row (alignement horizontal sur écran moyen) ; md:items-center (centrage vertical) ;
+         md:justify-between (espace entre le nom et la navigation). -->
     <div class="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-4 md:flex-row md:items-center md:justify-between">
+      <!-- text-xl (texte agrandi) ; font-bold (gras) ; focus-visible:outline-2 (contour du focus clavier) ;
+           focus-visible:outline-offset-2 (espace autour du contour) ; focus-visible:outline-white (contour blanc). -->
       <a href="index.html" class="text-xl font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Fleurs Roussel</a>
       <!-- Liens vers les principales pages du site. -->
       <nav aria-label="Navigation principale">
+        <!-- flex (mise en page flexible) ; flex-wrap (retour à la ligne si nécessaire) ;
+             gap-x-5 (espace horizontal) ; gap-y-2 (espace vertical entre les lignes). -->
         <ul class="flex flex-wrap gap-x-5 gap-y-2">
+          <!-- hover:underline (soulignement au survol) ; focus-visible:outline-2 (contour clavier de 2 px) ;
+               focus-visible:outline-white (contour blanc). -->
           <li><a href="bouquets.html" class="hover:underline focus-visible:outline-2 focus-visible:outline-white">Bouquets</a></li>
           <li><a href="abonnement.html" class="hover:underline focus-visible:outline-2 focus-visible:outline-white">Abonnement</a></li>
           <li><a href="contact.html" class="hover:underline focus-visible:outline-2 focus-visible:outline-white">Contact</a></li>
@@ -25,32 +37,55 @@
     </div>
   </header>
 
+  <!-- mx-auto (centrage) ; max-w-5xl (largeur maximale) ; px-4 (marges horizontales) ; py-8 (marges verticales). -->
   <main id="contenu" class="mx-auto max-w-5xl px-4 py-8">
 
     <!-- Deux colonnes : JavaScript répartit les fleurs du catalogue. -->
     <!-- Cette région reçoit les cartes créées à partir des données du catalogue. -->
     <section aria-label="Liste des fleurs">
+      <!-- grid (affichage en grille) ; grid-cols-2 (deux colonnes) ; items-start (alignement en haut) ;
+           gap-4 (espacement) ; md:gap-6 (espacement augmenté sur écran moyen). -->
       <div id="liste-fleurs" class="grid grid-cols-2 items-start gap-4 md:gap-6"></div>
       <p id="erreur-fleurs" role="alert" hidden>Impossible de charger les fleurs.</p>
     </section>
 
     <!-- Modèle réutilisé pour chaque fleur, sans ajouter de données au catalogue. -->
     <template id="modele-fleur">
+      <!-- flex (mise en page flexible) ; flex-wrap (retour à la ligne) ; min-h-32 (hauteur minimale) ;
+           min-w-0 (autorise le rétrécissement) ; items-center (centrage vertical) ; overflow-hidden (masque le débordement) ;
+           rounded-[16px] (coins arrondis) ; border (bordure) ; border-roussel-vert (bordure du thème) ;
+           px-2/py-4 (marges intérieures) ; text-xs (petit texte) ; transition-colors (transition des couleurs) ;
+           gap-2 (espacement) ; md:gap-4/md:px-4/md:text-sm (espacement, marges et texte adaptés aux écrans moyens). -->
       <li class="flex flex-wrap min-h-32 min-w-0 items-center overflow-hidden rounded-[16px] border border-roussel-vert px-2 py-4 text-xs transition-colors gap-2 md:gap-4 md:px-4 md:text-sm">
         <!-- Bouton natif : sélection au clic et au clavier, blocage avec disabled, curseur pointeur si cliquable. -->
+        <!-- flex (aligne l'image et le texte) ; shrink-0 (garde sa taille) ; items-center (centrage vertical) ;
+             gap-2 (espace entre éléments) ; text-left (texte à gauche) ; cursor-pointer (curseur cliquable) ;
+             focus-visible:outline-2/focus-visible:outline-offset-2/focus-visible:outline-roussel-vert (focus clavier visible) ;
+             disabled:cursor-not-allowed (curseur désactivé) ; disabled:grayscale (aspect grisé) ;
+             disabled:opacity-50 (opacité réduite) ; md:gap-4 (espace accru sur écran moyen). -->
         <button type="button" aria-pressed="false" class="flex shrink-0 items-center gap-2 text-left cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-roussel-vert disabled:cursor-not-allowed disabled:grayscale disabled:opacity-50 md:gap-4">
           <!-- Image de largeur fixe et espace commun pour séparer image et texte. -->
+          <!-- h-10/w-8 (dimensions de base) ; shrink-0 (empêche la déformation) ;
+               object-contain (image entièrement visible) ; object-left (alignement à gauche) ;
+               md:h-16/md:w-16 (dimensions supérieures sur écran moyen). -->
           <img class="h-10 w-8 shrink-0 object-contain object-left md:h-16 md:w-16" src="" alt="">
+          <!-- flex (conteneur flexible) ; flex-col (éléments empilés) ; justify-center (centrage vertical) ;
+               gap-2 (espace entre nom, prix et disponibilité). -->
           <span class="flex flex-col justify-center gap-2">
+            <!-- break-words (autorise la coupure des mots longs) ; font-bold (texte en gras). -->
             <span data-nom class="break-words font-bold"></span>
+            <!-- break-words (évite le débordement) ; text-roussel-gris (couleur grise du thème). -->
             <span data-prix class="break-words text-roussel-gris"></span>
+            <!-- break-words (évite le débordement) ; font-bold (met l'indisponibilité en évidence). -->
             <span data-disponibilite class="break-words font-bold" hidden>Indisponible</span>
           </span>
         </button>
         <!-- Les radios restent hors du bouton de sélection de la fleur. -->
         <!-- Liste à puce placée immédiatement après le bloc nom-prix avec le même espacement (gap-2 / gap-4). -->
+        <!-- space-y-1.5 (espace vertical entre les choix) ; py-1 (marge intérieure verticale). -->
         <ul data-couleurs hidden class="space-y-1.5 py-1" aria-label="Couleurs"></ul>
         <!-- Même espacement que les couleurs ; visible après le choix d'une couleur. -->
+        <!-- space-y-1.5 (espace vertical entre les tailles) ; py-1 (marge intérieure verticale). -->
         <ul data-tailles hidden class="space-y-1.5 py-1" aria-label="Tailles"></ul>
       </li>
     </template>
@@ -58,8 +93,12 @@
   </main>
 
   <!-- Pied de page commun du site -->
+  <!-- mt-12 (marge supérieure) ; bg-roussel-vert-clair (fond vert clair du thème). -->
   <footer class="mt-12 bg-roussel-vert-clair">
+    <!-- mx-auto (centrage) ; max-w-5xl (largeur maximale) ; px-4/py-6 (marges intérieures) ;
+         text-roussel-gris (couleur grise du thème). -->
     <div class="mx-auto max-w-5xl px-4 py-6 text-roussel-gris">
+      <!-- text-roussel-vert (met le nom en vert selon le thème). -->
       <p><strong class="text-roussel-vert">Fleurs Roussel</strong>, 14 rue Colbert, 37000 Tours</p>
     </div>
   </footer>
