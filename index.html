@@ -26,7 +26,26 @@
 
   <main id="contenu" class="mx-auto max-w-5xl px-4 py-8">
 
-    <!-- L'application vient ici. -->
+    <!-- Deux colonnes : JavaScript répartit les fleurs du catalogue. -->
+    <section aria-label="Liste des fleurs">
+      <div id="liste-fleurs" class="grid grid-cols-2 items-start gap-4 md:gap-6"></div>
+      <p id="erreur-fleurs" role="alert" hidden>Impossible de charger les fleurs.</p>
+    </section>
+
+    <!-- Modèle réutilisé pour chaque fleur, sans ajouter de données au catalogue. -->
+    <template id="modele-fleur">
+      <!-- Carte sans fond coloré, bordure arrondie à 16 px et padding commun. -->
+      <li class="relative flex items-stretch gap-0 overflow-hidden rounded-[16px] border border-roussel-vert px-[32px] py-[16px]">
+        <!-- Même hauteur que le bloc texte ; l'illustration reste entière et proportionnée. -->
+        <div class="relative w-1/2 shrink-0">
+          <img class="absolute inset-0 h-full w-full object-contain object-left" src="" alt="">
+        </div>
+        <div class="flex w-1/2 min-w-0 flex-col justify-center gap-2 p-2 md:p-4">
+          <h2 class="break-words font-bold"></h2>
+          <p class="break-words text-sm text-roussel-gris"></p>
+        </div>
+      </li>
+    </template>
 
   </main>
 
