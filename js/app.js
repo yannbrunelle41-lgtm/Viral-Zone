@@ -26,6 +26,7 @@ async function afficherFleurs() {
     let boutonSelectionne = null;
     let carteSelectionnee = null;
     let couleursSelectionnees = null;
+    let taillesSelectionnees = null;
 
     // Arrondir au-dessus place la fleur supplémentaire dans la colonne gauche.
     const separation = Math.ceil(fleurs.length / 2);
@@ -41,6 +42,28 @@ async function afficherFleurs() {
         const image = carte.querySelector("img");
         const bouton = carte.querySelector("button");
         const listeCouleurs = carte.querySelector("[data-couleurs]");
+        const listeTailles = carte.querySelector("[data-tailles]");
+        listeTailles.setAttribute("aria-label", `Tailles pour ${fleur.nom}`);
+        // Les valeurs des radios correspondent au nombre de tiges demandé.
+        for (const [taille, tiges] of [["petit", 7], ["moyen", 12], ["grand", 20]]) {
+          const element = document.createElement("li");
+          const etiquette = document.createElement("label");
+          etiquette.className = "flex cursor-pointer items-center gap-2 whitespace-nowrap text-roussel-texte";
+          const radio = document.createElement("input");
+          radio.type = "radio";
+          radio.name = "taille";
+          radio.value = String(tiges);
+          radio.className = "h-4 w-4 shrink-0 cursor-pointer accent-roussel-vert";
+          const libelle = document.createElement("span");
+          libelle.textContent = `${taille} (${tiges} tiges)`;
+          etiquette.append(radio, libelle);
+          element.append(etiquette);
+          listeTailles.append(element);
+        }
+        // Le choix d'une couleur révèle les tailles dans la même carte.
+        listeCouleurs.addEventListener("change", () => {
+          listeTailles.hidden = false;
+        });
         listeCouleurs.setAttribute("aria-label", `Couleurs de ${fleur.nom}`);
         // Les libellés viennent uniquement du catalogue ; aucun HTML n'est interprété.
         for (const couleur of fleur.couleurs) {
@@ -71,9 +94,9 @@ async function afficherFleurs() {
           elementLi.classList.add("cursor-not-allowed");
         }
 
-        // Permet de sélectionner la fleur en cliquant n'importe où dans la carte hors options de couleur
+        // Le clic sur les options ne déclenche pas le bouton de sélection de la fleur.
         elementLi.addEventListener("click", (event) => {
-          if (!event.target.closest("[data-couleurs]") && !event.target.closest("button")) {
+          if (!event.target.closest("[data-couleurs], [data-tailles], button")) {
             bouton.click();
           }
         });
@@ -82,6 +105,14 @@ async function afficherFleurs() {
           if (!selectionnable) return;
           // Un changement de fleur cache l'ancienne liste et réinitialise sa couleur.
           if (boutonSelectionne !== bouton) {
+            // Changer de fleur efface la taille précédente et cache ses options.
+            if (taillesSelectionnees) {
+              taillesSelectionnees.hidden = true;
+              for (const radio of taillesSelectionnees.querySelectorAll("input")) {
+                radio.checked = false;
+              }
+            }
+            taillesSelectionnees = listeTailles;
             if (couleursSelectionnees) {
               couleursSelectionnees.hidden = true;
               for (const radio of couleursSelectionnees.querySelectorAll("input")) {

@@ -36,7 +36,7 @@
 
     <!-- Modèle réutilisé pour chaque fleur, sans ajouter de données au catalogue. -->
     <template id="modele-fleur">
-      <li class="flex min-h-32 min-w-0 items-center overflow-hidden rounded-[16px] border border-roussel-vert px-2 py-4 text-xs transition-colors gap-2 md:gap-4 md:px-4 md:text-sm">
+      <li class="flex flex-wrap min-h-32 min-w-0 items-center overflow-hidden rounded-[16px] border border-roussel-vert px-2 py-4 text-xs transition-colors gap-2 md:gap-4 md:px-4 md:text-sm">
         <!-- Bouton natif : sélection au clic et au clavier, blocage avec disabled, curseur pointeur si cliquable. -->
         <button type="button" aria-pressed="false" class="flex shrink-0 items-center gap-2 text-left cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-roussel-vert disabled:cursor-not-allowed disabled:grayscale disabled:opacity-50 md:gap-4">
           <!-- Image de largeur fixe et espace commun pour séparer image et texte. -->
@@ -50,6 +50,8 @@
         <!-- Les radios restent hors du bouton de sélection de la fleur. -->
         <!-- Liste à puce placée immédiatement après le bloc nom-prix avec le même espacement (gap-2 / gap-4). -->
         <ul data-couleurs hidden class="space-y-1.5 py-1" aria-label="Couleurs"></ul>
+        <!-- Même espacement que les couleurs ; visible après le choix d'une couleur. -->
+        <ul data-tailles hidden class="space-y-1.5 py-1" aria-label="Tailles"></ul>
       </li>
     </template>
 
