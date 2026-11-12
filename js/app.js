@@ -1,4 +1,4 @@
-// Les chemins respectent les noms exacts des illustrations déjà présentes.
+// Associe chaque identifiant de fleur du catalogue au chemin exact de son illustration.
 const imagesFleurs = {
   rose: "img/fleurs/rose.svg",
   tulipe: "img/fleurs/tulipe.svg",
@@ -9,14 +9,17 @@ const imagesFleurs = {
   anemone: "img/fleurs/Anemone.svg",
 };
 
+// Prépare l'affichage des montants en euros selon les conventions françaises.
 const formatPrix = new Intl.NumberFormat("fr-FR", {
   style: "currency",
   currency: "EUR",
 });
 
-// Les frais demandés sont ajoutés une seule fois ; le calcul en centimes évite les imprécisions décimales.
+// Le coût fixe de composition est ajouté une fois par bouquet ; les centimes évitent les erreurs décimales.
 const prixCompositionCentimes = 500;
+// Met à jour les trois lignes du tableau récapitulatif à partir de la fleur et du nombre de tiges choisis.
 function afficherPrixBouquet(fleur, nombreTiges) {
+  // Convertit d'abord le prix unitaire en centimes, puis le multiplie par le nombre de tiges.
   const prixFleursCentimes = Math.round(fleur.prix_tige * 100) * nombreTiges;
   // textContent conserve les noms du catalogue comme du texte, sans interpréter de HTML.
   document.querySelector("#detail-fleur").textContent =
@@ -31,9 +34,11 @@ function afficherPrixBouquet(fleur, nombreTiges) {
 // Charge les données existantes sans modifier les prix ni les disponibilités.
 async function afficherFleurs() {
   try {
+    // Récupère le catalogue au format JSON ; une réponse HTTP en erreur est traitée comme un échec de chargement.
     const reponse = await fetch("data/donnees.json");
     if (!reponse.ok) throw new Error("Chargement du catalogue impossible");
     const fleurs = await reponse.json();
+    // Récupère les emplacements de la page qui recevront les cartes et leurs données.
     const liste = document.querySelector("#liste-fleurs");
     const modele = document.querySelector("#modele-fleur");
     // Une seule fleur peut être sélectionnée à la fois.
@@ -46,6 +51,7 @@ async function afficherFleurs() {
     const separation = Math.ceil(fleurs.length / 2);
     const colonnes = [fleurs.slice(0, separation), fleurs.slice(separation)];
 
+    // Construit séparément chaque colonne, puis ajoute une carte pour chacune de ses fleurs.
     for (const fleursColonne of colonnes) {
       const colonne = document.createElement("ul");
       // Classes Tailwind : flex (mise en page flexible), min-w-0 (autorise le rétrécissement),
@@ -53,13 +59,14 @@ async function afficherFleurs() {
       colonne.className = "flex min-w-0 flex-col gap-4 md:gap-6";
 
       for (const fleur of fleursColonne) {
+        // Clone le modèle HTML afin que chaque carte possède ses propres boutons et listes d'options.
         const carte = modele.content.cloneNode(true);
         const elementLi = carte.querySelector("li");
         const image = carte.querySelector("img");
         const bouton = carte.querySelector("button");
         const listeCouleurs = carte.querySelector("[data-couleurs]");
         const listeTailles = carte.querySelector("[data-tailles]");
-        // Une seule fonction vérifie les trois choix avant d'afficher le prix et la commande.
+        // Vérifie que cette fleur, une couleur et une taille sont choisies, puis synchronise le récapitulatif et la commande.
         function actualiserCommande() {
           const couleur = listeCouleurs.querySelector("input:checked");
           const taille = listeTailles.querySelector("input:checked");
@@ -75,6 +82,7 @@ async function afficherFleurs() {
             `Bouquet ${taille.dataset.taille} : ${taille.value} tiges de ${fleur.nom.toLocaleLowerCase("fr-FR")}, coloris ${couleur.value}.`;
           afficherPrixBouquet(fleur, Number(taille.value));
         }
+        // Recalcule l'état du bouquet dès qu'une taille est choisie ou modifiée.
         listeTailles.addEventListener("change", actualiserCommande);
         listeTailles.setAttribute("aria-label", `Tailles pour ${fleur.nom}`);
         // Les valeurs des radios correspondent au nombre de tiges demandé.
@@ -127,7 +135,7 @@ async function afficherFleurs() {
           element.append(etiquette);
           listeCouleurs.append(element);
         }
-        // Une donnée manquante ou à vérifier interdit également la sélection.
+        // Bloque la sélection si la fleur est indisponible, si le prix n'est pas numérique ou si des données restent à vérifier.
         const selectionnable = fleur.disponible === true
           && Number.isFinite(fleur.prix_tige)
           && Array.isArray(fleur.a_verifier)

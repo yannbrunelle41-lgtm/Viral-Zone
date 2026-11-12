@@ -304,3 +304,6 @@ Format de réponse :
 
 6eme et 7eme Fonctionnalité test ok.
 Pas de correction nécessaire.
+
+relecture par Nabil 
+Ajout des commentaires 
