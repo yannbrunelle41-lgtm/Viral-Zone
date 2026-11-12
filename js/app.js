@@ -59,10 +59,23 @@ async function afficherFleurs() {
         const bouton = carte.querySelector("button");
         const listeCouleurs = carte.querySelector("[data-couleurs]");
         const listeTailles = carte.querySelector("[data-tailles]");
-        // Chaque nouvelle taille remplace le calcul précédent pour la fleur choisie.
-        listeTailles.addEventListener("change", (event) => {
-          afficherPrixBouquet(fleur, Number(event.target.value));
-        });
+        // Une seule fonction vérifie les trois choix avant d'afficher le prix et la commande.
+        function actualiserCommande() {
+          const couleur = listeCouleurs.querySelector("input:checked");
+          const taille = listeTailles.querySelector("input:checked");
+          const choixComplets = boutonSelectionne === bouton && couleur !== null && taille !== null;
+          document.querySelector("#message-choix").hidden = choixComplets;
+          document.querySelector("#recapitulatif-prix").hidden = !choixComplets;
+          document.querySelector("#recapitulatif-bouquet").hidden = !choixComplets;
+          document.querySelector("#commander-bouquet").hidden = !choixComplets;
+          if (!choixComplets) return;
+
+          // Les textes viennent des options et du catalogue ; textContent ne les interprète pas en HTML.
+          document.querySelector("#recapitulatif-bouquet").textContent =
+            `Bouquet ${taille.dataset.taille} : ${taille.value} tiges de ${fleur.nom.toLocaleLowerCase("fr-FR")}, coloris ${couleur.value}.`;
+          afficherPrixBouquet(fleur, Number(taille.value));
+        }
+        listeTailles.addEventListener("change", actualiserCommande);
         listeTailles.setAttribute("aria-label", `Tailles pour ${fleur.nom}`);
         // Les valeurs des radios correspondent au nombre de tiges demandé.
         for (const [taille, tiges] of [["petit", 7], ["moyen", 12], ["grand", 20]]) {
@@ -76,6 +89,8 @@ async function afficherFleurs() {
           radio.type = "radio";
           radio.name = "taille";
           radio.value = String(tiges);
+          // Conserve le nom de la taille pour la phrase récapitulative.
+          radio.dataset.taille = taille;
           // Classes Tailwind du bouton radio : h-4/w-4 (dimensions), shrink-0 (pas de rétrécissement),
           // cursor-pointer (curseur cliquable), accent-roussel-vert (couleur du thème).
           radio.className = "h-4 w-4 shrink-0 cursor-pointer accent-roussel-vert";
@@ -88,6 +103,7 @@ async function afficherFleurs() {
         // Le choix d'une couleur révèle les tailles dans la même carte.
         listeCouleurs.addEventListener("change", () => {
           listeTailles.hidden = false;
+          actualiserCommande();
         });
         listeCouleurs.setAttribute("aria-label", `Couleurs de ${fleur.nom}`);
         // Les libellés viennent uniquement du catalogue ; aucun HTML n'est interprété.
@@ -164,6 +180,8 @@ async function afficherFleurs() {
           bouton.setAttribute("aria-pressed", "true");
           boutonSelectionne = bouton;
           carteSelectionnee = elementLi;
+          // Réévalue aussi la commande après un changement de fleur, qui efface les autres choix.
+          actualiserCommande();
         });
         image.src = imagesFleurs[fleur.id];
         image.alt = ""; // Le nom adjacent décrit déjà la fleur.

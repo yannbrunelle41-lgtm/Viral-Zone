@@ -74,6 +74,15 @@
       </table>
     </section>
 
+    <!-- text-center centre la phrase ; le lien reste sur sa propre ligne grâce au paragraphe.
+         mx-auto/w-fit centrent le bouton, même lorsque la phrase occupe plusieurs lignes. -->
+    <section aria-label="Récapitulatif du bouquet" aria-live="polite" class="mt-6 text-center">
+      <p id="message-choix">Choisissez une fleur, une couleur et une taille pour terminer votre bouquet.</p>
+      <p id="recapitulatif-bouquet" hidden></p>
+      <!-- Lien de navigation présenté comme un bouton avec les couleurs du thème existant. -->
+      <a id="commander-bouquet" href="contact.html?objet=bouquet" hidden class="mx-auto mt-4 block w-fit max-w-full rounded-[16px] bg-roussel-vert px-6 py-3 font-bold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-roussel-vert">Commander ce bouquet</a>
+    </section>
+
     <!-- Modèle réutilisé pour chaque fleur, sans ajouter de données au catalogue. -->
     <template id="modele-fleur">
       <!-- flex (mise en page flexible) ; flex-wrap (retour à la ligne) ; min-h-32 (hauteur minimale) ;
