@@ -34,18 +34,20 @@
 
     <!-- Modèle réutilisé pour chaque fleur, sans ajouter de données au catalogue. -->
     <template id="modele-fleur">
-      <li class="min-w-0">
+      <li class="flex min-w-0 items-center rounded-[16px] border border-roussel-vert text-xs md:text-sm">
         <!-- Hauteur commune aux cartes, avec assez de place pour la mention Indisponible. -->
         <!-- Bouton natif : sélection au clic et au clavier, blocage avec disabled, curseur pointeur si cliquable. -->
-        <button type="button" aria-pressed="false" class="flex h-32 w-full min-w-0 items-center gap-4 overflow-hidden rounded-[16px] border border-roussel-vert px-2 py-4 text-left cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-roussel-vert disabled:cursor-not-allowed disabled:grayscale disabled:opacity-50 md:px-[32px]">
+        <button type="button" aria-pressed="false" class="flex min-h-32 min-w-0 flex-1 self-stretch items-center gap-2 overflow-hidden rounded-[16px] px-2 py-4 text-left cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-roussel-vert disabled:cursor-not-allowed disabled:grayscale disabled:opacity-50 md:gap-4 md:px-4">
           <!-- Image de largeur fixe et espace de 16 px pour rapprocher le texte. -->
-          <img class="h-16 w-16 shrink-0 object-contain object-left" src="" alt="">
+          <img class="h-10 w-8 shrink-0 object-contain object-left md:h-16 md:w-16" src="" alt="">
           <span class="flex min-w-0 flex-1 flex-col justify-center gap-2">
             <span data-nom class="break-words font-bold"></span>
-            <span data-prix class="break-words text-sm text-roussel-gris"></span>
-            <span data-disponibilite class="break-words text-sm font-bold" hidden>Indisponible</span>
+            <span data-prix class="break-words text-roussel-gris"></span>
+            <span data-disponibilite class="break-words font-bold" hidden>Indisponible</span>
           </span>
         </button>
+        <!-- Les radios restent hors du bouton de sélection de la fleur. -->
+        <ul data-couleurs hidden class="shrink-0 space-y-1 pr-2 md:pr-4" aria-label="Couleurs"></ul>
       </li>
     </template>
 

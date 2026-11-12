@@ -24,6 +24,7 @@ async function afficherFleurs() {
     const modele = document.querySelector("#modele-fleur");
     // Une seule fleur peut être sélectionnée à la fois.
     let boutonSelectionne = null;
+    let couleursSelectionnees = null;
 
     // Arrondir au-dessus place la fleur supplémentaire dans la colonne gauche.
     const separation = Math.ceil(fleurs.length / 2);
@@ -37,6 +38,24 @@ async function afficherFleurs() {
         const carte = modele.content.cloneNode(true);
         const image = carte.querySelector("img");
         const bouton = carte.querySelector("button");
+        const listeCouleurs = carte.querySelector("[data-couleurs]");
+        listeCouleurs.setAttribute("aria-label", `Couleurs de ${fleur.nom}`);
+        // Les libellés viennent uniquement du catalogue ; aucun HTML n'est interprété.
+        for (const couleur of fleur.couleurs) {
+          const element = document.createElement("li");
+          const etiquette = document.createElement("label");
+          etiquette.className = "flex cursor-pointer items-center gap-1 whitespace-nowrap md:gap-2";
+          const radio = document.createElement("input");
+          radio.type = "radio";
+          radio.name = "couleur";
+          radio.value = couleur;
+          radio.className = "shrink-0 cursor-pointer accent-roussel-vert";
+          const libelle = document.createElement("span");
+          libelle.textContent = couleur;
+          etiquette.append(radio, libelle);
+          element.append(etiquette);
+          listeCouleurs.append(element);
+        }
         // Une donnée manquante ou à vérifier interdit également la sélection.
         const selectionnable = fleur.disponible === true
           && Number.isFinite(fleur.prix_tige)
@@ -46,6 +65,17 @@ async function afficherFleurs() {
         carte.querySelector("[data-disponibilite]").hidden = selectionnable;
         bouton.addEventListener("click", () => {
           if (!selectionnable) return;
+          // Un changement de fleur cache l'ancienne liste et réinitialise sa couleur.
+          if (boutonSelectionne !== bouton) {
+            if (couleursSelectionnees) {
+              couleursSelectionnees.hidden = true;
+              for (const radio of couleursSelectionnees.querySelectorAll("input")) {
+                radio.checked = false;
+              }
+            }
+            listeCouleurs.hidden = false;
+            couleursSelectionnees = listeCouleurs;
+          }
           boutonSelectionne?.classList.remove("bg-roussel-vert-clair");
           boutonSelectionne?.setAttribute("aria-pressed", "false");
           bouton.classList.add("bg-roussel-vert-clair");
