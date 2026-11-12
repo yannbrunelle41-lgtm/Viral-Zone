@@ -307,3 +307,12 @@ Pas de correction nécessaire.
 
 relecture par Nabil 
 Ajout des commentaires 
+
+Création de fichier relecture.md. 
+Suivi des corrections et améliorations suivies dans le fichier relecture.md
+README.md complété
+
+Fin de projet
+Nabil
+Valentin
+Yann

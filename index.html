@@ -42,20 +42,21 @@
   <!-- mx-auto (centrage) ; max-w-5xl (largeur maximale) ; px-4 (marges horizontales) ; py-8 (marges verticales). -->
   <main id="contenu" class="mx-auto max-w-5xl px-4 py-8">
 
-    <!-- Deux colonnes : JavaScript répartit les fleurs du catalogue. -->
+    <!-- Une colonne sur mobile ; deux colonnes à partir de 768 px (md). -->
     <!-- Cette région reçoit les cartes créées à partir des données du catalogue. -->
     <section aria-label="Liste des fleurs">
-      <!-- grid (affichage en grille) ; grid-cols-2 (deux colonnes) ; items-start (alignement en haut) ;
+      <!-- grid (affichage en grille) ; grid-cols-1 (une colonne mobile) ; md:grid-cols-2 (deux colonnes dès 768 px) ; items-start (alignement en haut) ;
            gap-4 (espacement) ; md:gap-6 (espacement augmenté sur écran moyen). -->
-      <div id="liste-fleurs" class="grid grid-cols-2 items-start gap-4 md:gap-6"></div>
+      <div id="liste-fleurs" class="grid grid-cols-1 items-start gap-4 md:grid-cols-2 md:gap-6"></div>
       <!-- Alerte masquée par défaut ; JavaScript l'affiche si le catalogue ne peut pas être chargé. -->
       <p id="erreur-fleurs" role="alert" hidden>Impossible de charger les fleurs.</p>
     </section>
 
     <!-- border/border-roussel-vert (bordure verte) ; rounded-[16px] (coins arrondis) ; p-4 (espace intérieur).
-         ml-auto plaque le bloc à droite ; w-fit adapte sa largeur ; max-w-full évite le débordement.
+         mx-auto centre le bloc sur mobile ; md:mr-0 le plaque à droite dès 768 px.
+         w-fit adapte sa largeur ; max-w-full évite le débordement.
          La table aligne les libellés, les signes « : » et les montants dans trois colonnes. -->
-    <section id="recapitulatif-prix" aria-label="Prix du bouquet" aria-live="polite" hidden class="mt-6 ml-auto w-fit max-w-full rounded-[16px] border border-roussel-vert p-4">
+    <section id="recapitulatif-prix" aria-label="Prix du bouquet" aria-live="polite" hidden class="mx-auto mt-6 w-fit max-w-full md:mr-0 rounded-[16px] border border-roussel-vert p-4">
       <!-- Le tableau sépare le détail de chaque montant et annonce le prix total en dernière ligne. -->
       <table class="text-sm md:text-base">
         <tbody>
