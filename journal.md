@@ -169,3 +169,5 @@ Quand on clique sur la case, on voit que l'écriture se colle uniquement sur la 
 La liste à puce je veux qu'elle soit juste après le bloc nom-prix avec le meme gap qu'il y entre l'image et le bloc prix pas au bout de la case
 
 Résultat ok.
+Relecture par Nabil 
+ajouter les commentaires 

@@ -14,6 +14,7 @@
   <header class="bg-roussel-vert text-white">
     <div class="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-4 md:flex-row md:items-center md:justify-between">
       <a href="index.html" class="text-xl font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Fleurs Roussel</a>
+      <!-- Liens vers les principales pages du site. -->
       <nav aria-label="Navigation principale">
         <ul class="flex flex-wrap gap-x-5 gap-y-2">
           <li><a href="bouquets.html" class="hover:underline focus-visible:outline-2 focus-visible:outline-white">Bouquets</a></li>
@@ -27,6 +28,7 @@
   <main id="contenu" class="mx-auto max-w-5xl px-4 py-8">
 
     <!-- Deux colonnes : JavaScript répartit les fleurs du catalogue. -->
+    <!-- Cette région reçoit les cartes créées à partir des données du catalogue. -->
     <section aria-label="Liste des fleurs">
       <div id="liste-fleurs" class="grid grid-cols-2 items-start gap-4 md:gap-6"></div>
       <p id="erreur-fleurs" role="alert" hidden>Impossible de charger les fleurs.</p>

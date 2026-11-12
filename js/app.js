@@ -112,9 +112,11 @@ async function afficherFleurs() {
       liste.append(colonne);
     }
   } catch (erreur) {
+    // Affiche une alerte dans la page et conserve l'erreur dans la console pour le diagnostic.
     document.querySelector("#erreur-fleurs").hidden = false;
     console.error(erreur);
   }
 }
 
+// Lance le chargement du catalogue dès que le script différé est exécuté.
 afficherFleurs();
