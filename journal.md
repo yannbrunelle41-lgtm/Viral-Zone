@@ -208,3 +208,5 @@ Format de réponse :
 2. Code proposé pour chaque fichier.
 3. Explication du code.
 4. Comment vérifier chaque cas de test.
+
+Fonctionnalité 4 résultat ok.
