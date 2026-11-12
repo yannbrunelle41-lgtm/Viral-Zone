@@ -122,3 +122,5 @@ Correction avec IA:
 Ajoute un état de hover cursor-pointer pour qu'une petite main s'affiche lorque c'est cliquable.
 
 Résultat ok.
+relctur de code par Nabil 
+la code n'a pas de commenter 
